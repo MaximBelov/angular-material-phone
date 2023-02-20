@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn} from '@angular/forms';
-import PhoneNumber from 'awesome-phonenumber';
+import {parsePhoneNumber, getExample} from 'awesome-phonenumber';
 import {ISO_3166_1_CODES} from './country-codes';
 import {ErrorStateMatcher} from '@angular/material/core';
 
@@ -48,8 +48,8 @@ export class PhoneComponent {
      * Return an {@see PhoneNumber} value created from the
      * phoneNumberDigits and currently selected country code.
      */
-    get phoneNumber(): PhoneNumber {
-        return new PhoneNumber(this.phoneNumberDigits, this.phoneCountryControl.value);
+    get phoneNumber() {
+        return parsePhoneNumber(this.phoneNumberDigits, {regionCode: this.phoneCountryControl.value});
     }
 
     /**
@@ -57,7 +57,7 @@ export class PhoneComponent {
      * from awesome-phonenumber.
      */
     formatNumber() {
-        const natNum = this.phoneNumber.getNumber('national');
+        const natNum = this.phoneNumber.number.national;
         this.phoneNumberControl.setValue((natNum) ? natNum : this.phoneNumberDigits);
     }
 
@@ -66,7 +66,7 @@ export class PhoneComponent {
      * with the currently selected country.
      */
     get phoneHint(): string {
-        return PhoneNumber.getExample(this.phoneCountryControl.value).getNumber('national');
+        return getExample(this.phoneCountryControl.value).number.national;
     }
 
     /**
@@ -75,7 +75,7 @@ export class PhoneComponent {
      * sending text messages.
      */
     get phoneE164(): string {
-        return this.phoneNumber.getNumber('e164');
+        return this.phoneNumber.number.e164;
     }
 
     // FormControl Getters
@@ -100,7 +100,7 @@ export class PhoneComponent {
 export const phoneValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
     const country = control.get('country');
     const num = control.get('number');
-    if (num?.value && country?.value && !(new PhoneNumber(num.value, country.value).isValid())) {
+    if (num?.value && country?.value && !(parsePhoneNumber(num.value, {regionCode: country.value}).valid)) {
         return {invalidPhone: true};
     } else {
         return null;
