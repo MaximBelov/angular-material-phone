@@ -89,6 +89,9 @@ SOFTWARE.
 
 
 
+country-list-with-dial-code-and-flag
+ISC
+
 rxjs
 Apache-2.0
                                Apache License
