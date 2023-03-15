@@ -66,7 +66,8 @@ export class PhoneComponent {
      * with the currently selected country.
      */
     get phoneHint(): string {
-        return getExample(this.phoneCountryControl.value).number.national;
+        const value = this.phoneCountryControl.value;
+        return value ? getExample(value, 'mobile').number.national.replace(/\s+/g, '') : '';
     }
 
     /**

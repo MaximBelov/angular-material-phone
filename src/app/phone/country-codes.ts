@@ -1,10 +1,15 @@
+import { getSupportedRegionCodes } from 'awesome-phonenumber';
+import { findFlag } from 'country-list-with-dial-code-and-flag';
+
 export interface CountryCodes {
     code: string;
     country: string;
+    flag?: string;
+    dial_code?: string;
 }
 
 // https://github.com/google/libphonenumber/blob/master/FAQ.md#why-are-bouvet-island-bv-pitcairn-island-pn-antarctica-aq-etc-not-supported
-export const ISO_3166_1_CODES: CountryCodes[] = [
+export const ISO_3166_1_CODES_old: CountryCodes[] = [
     {code: 'AF', country: 'Afghanistan'},
     {code: 'AX', country: 'Åland Islands'},
     {code: 'AL', country: 'Albania'},
@@ -255,3 +260,21 @@ export const ISO_3166_1_CODES: CountryCodes[] = [
     {code: 'ZM', country: 'Zambia'},
     {code: 'ZW', country: 'Zimbabwe'}
 ];
+
+
+export const ISO_3166_1_CODES = getSupportedRegionCodes().map(code => {
+    // @ts-ignore
+    const ff = findFlag(code);
+    if (!ff) {
+        console.log(code);
+    } else {
+        const country: CountryCodes = {
+            code: ff.code,
+            country: ff.name,
+            dial_code: ff.dial_code,
+            flag: ff.flag,
+        };
+
+        return country;
+    }
+}).filter(c => c).sort((a, b) =>  a.country.localeCompare(b.country));

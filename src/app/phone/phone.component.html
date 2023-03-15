@@ -9,7 +9,7 @@
                     <mat-label>Country</mat-label>
                     <mat-select formControlName="country" (selectionChange)="formatNumber()">
                         <mat-option *ngFor="let countryCode of countyCodes" [value]="countryCode.code">
-                            {{countryCode.country}}
+                            {{countryCode.flag}} {{countryCode.country}} {{countryCode.dial_code}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -32,6 +32,10 @@
         <p class="json-output"><code>PhoneNumber('{{phoneNumberDigits}}', '{{phoneCountryControl.value}}
             ').toJSON()</code></p>
         <pre>{{phoneNumber | json}}</pre>
+        <mat-divider></mat-divider>
+
+        <pre>{{countyCodes | json}}</pre>
+
         <mat-card-footer><a href="https://mikedalrymple.com/angular-material-phone/">Blog Post</a> | <a href="https://github.com/MaximBelov/angular-material-phone">GitHub Repository</a></mat-card-footer>
     </mat-card-content>
 </mat-card>
