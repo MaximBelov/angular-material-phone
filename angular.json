@@ -97,7 +97,10 @@
           "builder": "@angular-builders/jest:run"
         },
         "deploy": {
-          "builder": "angular-cli-ghpages:deploy"
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "https://maximbelov.github.io/angular-material-phone/"
+          }
         }
       }
     }
