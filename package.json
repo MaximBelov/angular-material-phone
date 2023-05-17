@@ -1,12 +1,13 @@
 {
   "name": "angular-material-phone",
-  "version": "13.0.0",
+  "version": "13.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "deploy": "ng deploy"
+    "deploy": "ng deploy",
+    "bumpVersion": "npm version patch"
   },
   "license": "MIT",
   "private": true,
